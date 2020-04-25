@@ -14,7 +14,7 @@ const expressSession = require("express-session");
 const uniqueValidator = require("mongoose-unique-validator");
 
 // APP CONFIG
-mongoose.connect("mongodb://user:password1@ds247569.mlab.com:47569/heroku_0nckm1dx");
+mongoose.connect("mongodb://bossman:bossman1@ds153096.mlab.com:53096/heroku_r8nnzz9p");
 //mongoose.connect("mongodb://localhost/register");
 mongoose.connection.once("open", function(){
     console.log("MONGODB connection made");
