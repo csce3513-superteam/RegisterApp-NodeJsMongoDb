@@ -15,6 +15,7 @@
       <div >
         <form action="/addCart" method="POST" class="foundItem">
         <input type="text" name="cartProduct[lookupCode]" value="<%=product[0].lookupCode%>" hidden>
+        <input type="text" name="cartProduct[price]" value="<%=product[0].price%>" hidden>
 
         <h4 class="foundProd">
           Lookup Code: <%=product[0].lookupCode%> |

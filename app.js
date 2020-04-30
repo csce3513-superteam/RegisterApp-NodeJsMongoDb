@@ -14,8 +14,8 @@ const expressSession = require("express-session");
 const uniqueValidator = require("mongoose-unique-validator");
 
 // APP CONFIG
-mongoose.connect("mongodb://bossman:bossman1@ds153096.mlab.com:53096/heroku_r8nnzz9p");
-//mongoose.connect("mongodb://localhost/register");
+//mongoose.connect("mongodb://bossman:bossman1@ds153096.mlab.com:53096/heroku_r8nnzz9p");
+mongoose.connect("mongodb://localhost/register");
 mongoose.connection.once("open", function(){
     console.log("MONGODB connection made");
 
@@ -32,11 +32,13 @@ app.use(methodOverride("_method"));
 var productSchema = new mongoose.Schema({
     lookupCode: {type : String , unique : true}, 
     count: Number, 
+    price: Number,
     created:{ type: Date, default: Date.now }
 });
 
 var cartProductSchema = new mongoose.Schema({
     lookupCode: {type : String , unique : true}, 
+    price: Number,
     addAmount: Number
 });
 
@@ -215,9 +217,21 @@ app.post("/employeeDetail", function(req, res){
     
 
 });
+app.post("/removeItem", function(req, res){
+    cartProduct.deleteOne({lookupCode: req.body.lookup},function(err, product){
+        if(res.err)
+        {
+            console.log("Error with /removeItem");
+        }
+        else
+        {
+            res.redirect("/viewCart"); 
+        }
+    });
+});
 
 app.post("/productLookup", function(req, res){
-    Product.find({lookupCode: req.body.lookup}, function(err, product){
+    Product.find({lookupCode: {$regex : ".*"+ req.body.lookup + ".*"}}, function(err, product){
         if(res.err)
         {
             console.log("Error with /productLookup");

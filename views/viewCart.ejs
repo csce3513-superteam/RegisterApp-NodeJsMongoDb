@@ -1,4 +1,6 @@
 <% include ./partials/header %>
+<% var total =0;%>
+<% var amount =0;%>
 <body>
   <h1>Cart</h1>
   <%if (typeof cartProduct != "undefined"){ %>
@@ -8,15 +10,35 @@
         <br>
         Amount to buy: <%=product.addAmount%>
         <br>
+        <form action="/removeItem" method="POST">
+          <input type="text" name="lookup" value="<%=product.lookupCode%>" hidden>
+          <button>Remove product from cart</button>
+        </form>
       </div>
     <% }); %>
-  <%} %>
-
+  
+    <hr>
+    <% cartProduct.forEach(product =>{ %>
+      <%total += (product.price * product.addAmount);%> 
+      <%amount += product.addAmount;%> 
+    <% }); %>
+      <div class="product">
+        Total: $<%=total%>
+        <br>
+        Amount to buy total: <%=amount%>
+        <br>
+      </div>
+  <%}%>
+  <br>
   <form action="/clearCart" method="POST">
   <button>Cancel Transaction</button>
   </form>
-
+  <br>
   <form action="/checkout" method="POST">
     <button>Checkout</button>
+  </form>
+  <br>
+  <form action="/productLookup" >
+    <button>Back</button>
   </form>
 </body>
